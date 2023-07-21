@@ -2,9 +2,9 @@ const express = require('express')
 
 
 
-const contrl = require('../../controllers/controlles')
+const contrl= require('../../controllers/controlles')
 
-const { schemaContactValidator } = require('../../shema')
+const { schemaContactValidator } = require("../../shema")
 
 const { validateBody } = require("../../middelware");
 

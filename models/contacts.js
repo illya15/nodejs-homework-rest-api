@@ -29,11 +29,12 @@ const removeContact = async (id) => {
 
   const [result] = contacts.splice(index, 1);
 
-  const pathToFile = path.join("contacts.json");
+  const pathToFile = path.join("models", "contacts.json");
   await fs.writeFile(pathToFile, JSON.stringify(contacts, null, 2));
 
   return result;
 };
+
 
 const addContact = async (data) => {
   const contacts = await listContacts();
@@ -56,7 +57,7 @@ const addContact = async (data) => {
        return null;
      }
      contacts[index] = {id,...body};
-     const pathToFile = path.join("contacts.json");
+     const pathToFile = path.join("models","contacts.json");
  await fs.writeFile(pathToFile, JSON.stringify(contacts, null, 2));
 return contacts[index]
  };

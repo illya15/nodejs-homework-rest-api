@@ -1,17 +1,8 @@
-// const Joi = require("joi");
-
 const contacts = require("../models/contacts");
 
 const { HttpError } = require("../utils");
 const {ctrlWrapper}  = require('../utils')
 
-
-
-// const addShema = Joi.object({
-//   name: Joi.string().required(),
-//   email: Joi.string().required(),
-//   phone: Joi.string().required(),
-// });
 
 const listContacts = async (req, res) => {
  
@@ -34,10 +25,6 @@ const getContactById = async (req, res) => {
 
 const addContact = async (req, res) => {
  
-    // const { error } = addShema.validate(req.body);
-    // if (error) {
-    //   throw HttpError(400, error.message);
-    // }
     const result = await contacts.addContact(req.body);
     res.status(201).json(result);
     
@@ -56,18 +43,25 @@ const removeContact = async (req, res) => {
  
 };
 
+
+
+
+
 const updateContact = async (req, res) => {
  
-    // const { error } = addShema.validate(req.body);
-    // if (error) {
-    //   throw HttpError(400, error.message);
-    // }
     const { id } = req.params;
     const result = await contacts.updateContact(id, req.body);
+
+    
+    
     if (!result) {
       throw HttpError(404, "not found");
-    }
+         }
+
+
     res.json(result);
+
+     
   
 };
 
