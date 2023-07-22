@@ -1,5 +1,6 @@
 const contacts = require("../models/contacts");
 
+
 const { HttpError } = require("../utils");
 const {ctrlWrapper}  = require('../utils')
 
@@ -31,7 +32,7 @@ const addContact = async (req, res) => {
 };
 
 const removeContact = async (req, res) => {
- 
+
     const { id } = req.params;
     const result = await contacts.removeContact(id);
     if (!result) {
@@ -44,31 +45,28 @@ const removeContact = async (req, res) => {
 };
 
 
-
-
-
 const updateContact = async (req, res) => {
  
-    const { id } = req.params;
-    const result = await contacts.updateContact(id, req.body);
+  const { id } = req.params;
+  const result = await contacts.updateContact(id, req.body);
+  const body = req.body;
+  if (!result) {
+    throw HttpError(404, "not found");
+  }
 
-    
-    
-    if (!result) {
-      throw HttpError(404, "not found");
-         }
-
-
-    res.json(result);
-
-     
+  if (!body) {
+     throw HttpError(400, "missing fields");
   
+  }
+
+  res.json(result);
 };
+
 
 module.exports = {
     listContacts: ctrlWrapper(listContacts ) ,
     getContactById :ctrlWrapper(getContactById),
     addContact :ctrlWrapper(addContact),
     removeContact :ctrlWrapper(removeContact),
-    updateContact :ctrlWrapper(updateContact),
+    updateContact : ctrlWrapper(updateContact),
 };
