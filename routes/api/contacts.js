@@ -6,7 +6,7 @@ const contrl= require('../../controllers/controlles')
 
 const { schemaContactValidator } = require("../../shema")
 
-const { validateBody } = require("../../middelware");
+const { validateBody , haveBody } = require("../../middelware");
 
 const router = express.Router();
 
@@ -21,6 +21,6 @@ router.post('/', validateBody(schemaContactValidator), contrl.addContact)
 
 router.delete('/:id', contrl.removeContact)
 
-router.put('/:id',validateBody(schemaContactValidator), contrl.updateContact)
+router.put('/:id', haveBody, validateBody(schemaContactValidator), contrl.updateContact)
 
 module.exports = router

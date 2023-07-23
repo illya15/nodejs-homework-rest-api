@@ -49,14 +49,9 @@ const updateContact = async (req, res) => {
  
   const { id } = req.params;
   const result = await contacts.updateContact(id, req.body);
-  const body = req.body;
+
   if (!result) {
     throw HttpError(404, "not found");
-  }
-
-  if (!body) {
-     throw HttpError(400, "missing fields");
-  
   }
 
   res.json(result);
