@@ -63,7 +63,7 @@ return contacts[index]
  };
 
 module.exports = {
-  // contactsPath,
+
   listContacts,
   getContactById,
   addContact,
