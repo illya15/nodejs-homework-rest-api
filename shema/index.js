@@ -1,3 +1,7 @@
 const schemaContactValidator = require("./validateSchemaContact");
 
-module.exports = { schemaContactValidator };
+const contactFavoriteValidator = require('./contactFavoriteValidator')
+
+module.exports = { schemaContactValidator,
+contactFavoriteValidator,
+};
