@@ -8,15 +8,17 @@ const contrl = require("../../controllers/controlles");
 
 const { schemaContactValidator, contactFavoriteValidator } = require("../../shema");
 
-const { validateBody, haveBody, isValidId } = require("../../middelware");
+const { authenticate, validateBody, haveBody, isValidId } = require("../../middelware");
 
 const router = express.Router();
 
-router.get("/", contrl.listContacts);
+ router.use(authenticate);
+
+router.get("/", contrl.getContacts);
 
 router.get("/:id", isValidId, contrl.getContactById);
 
-router.post("/", validateBody(schemaContactValidator), contrl.addContact);
+router.post("/", validateBody(schemaContactValidator), contrl.postContact);
 
  router.delete('/:id',isValidId, contrl.removeContact)
 

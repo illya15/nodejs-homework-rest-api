@@ -1,6 +1,7 @@
 
 const { HttpError } = require("../utils");
 
+
 const validateBody = (schema) => {
   const func = (req, res, next) => {
 
@@ -16,4 +17,3 @@ const validateBody = (schema) => {
 };
 
 module.exports = validateBody;
-
