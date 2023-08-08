@@ -14,7 +14,7 @@ mongoose
   .then(() => {
     app.listen(portForConnection, () => {
       console.log(
-        `Database connection successful. Use our API on port in local connection: ${portForConnection}`
+        `Database connection successfulOK. Use our API on port in local connection: ${portForConnection}`
       );
     });
   })
