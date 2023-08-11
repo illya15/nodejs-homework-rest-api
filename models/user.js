@@ -19,7 +19,6 @@ const userSchemaValidator = new Schema(
       required: [true, "Email is required"],
       unique: true,
     },
-    
 
     subscription: {
       type: String,
@@ -30,10 +29,12 @@ const userSchemaValidator = new Schema(
       ],
       default: STATUS_SUBSCRIPTION.STARTER,
     },
+    avatarURL: String,
     token: { type: String, default: "" },
+   
   },
 
-  {  versionKey: false }
+  { versionKey: false }
 );
 
 userSchemaValidator.post("save", (error, data, next) => {

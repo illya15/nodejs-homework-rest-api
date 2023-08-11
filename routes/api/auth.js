@@ -1,6 +1,6 @@
 const express = require("express");
 
-const{authenticate,validateBody} = require("../../middelware");
+const{authenticate,validateBody, uploadAvatar} = require("../../middelware");
 
 const {userValidator,userSubscriptionValidator} = require("../../shema")
 
@@ -24,6 +24,8 @@ const router = express.Router();
    validateBody(userSubscriptionValidator),
    ctrl.updateUserSubscription
  );
+
+ router.patch("/avatars", authenticate,uploadAvatar.single('avatar'),ctrl.updateAvatar);
 
 
 
