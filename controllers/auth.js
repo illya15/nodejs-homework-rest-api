@@ -127,7 +127,7 @@ const updateAvatar =  async (req, res) => {
     throw HttpError(404, "Not found user");
   }
 
-  res.json({ user: { avatarURL } });
+  res.json( { avatarURL } );
 };
 
 module.exports = {
