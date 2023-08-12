@@ -27,6 +27,8 @@ const router = express.Router();
 
  router.patch("/avatars", authenticate,uploadAvatar.single('avatar'),ctrl.updateAvatar);
 
+ router.get("/verify/:verificationToken", ctrl.verifyToken);
 
+ router.post("/verify/", validateBody(userSubscriptionValidator), ctrl.resendEmail);
 
 module.exports = router;
