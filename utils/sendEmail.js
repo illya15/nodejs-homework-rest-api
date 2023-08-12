@@ -18,12 +18,12 @@ const sendEmail = async ({ email, verificationToken }) => {
 
   const emailOptions = {
     to: email,
-    from: "olegbilas@meta.ua",
+    from: "ilysha.sid@meta.ua",
     subject: "Confirm registration",
     html: `<a href="${baseURL}/users/verify/${verificationToken}" target="_blank">Please, confirm your registration by press this reference</a>`,
   };
 
-  console.log(emailOptions);
+    console.log(emailOptions);
 
   await transporter.sendMail(emailOptions);
 };
