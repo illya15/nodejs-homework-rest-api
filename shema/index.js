@@ -4,10 +4,18 @@ const contactFavoriteValidator = require('./contactFavoriteValidator');
 
 const userValidator =require ('./userSchema');
 
-const userSubscriptionValidator = require('./userSubscriptionValidator')
+const userSubscriptionValidator = require('./userSubscriptionValidator');
 
-module.exports = { schemaContactValidator,
-contactFavoriteValidator,
-userValidator, 
-userSubscriptionValidator
+const emailUserValidator = require('./emailUserValidator')
+
+
+module.exports = {
+  schemaContactValidator,
+  contactFavoriteValidator,
+  userValidator,
+  userSubscriptionValidator,
+  emailUserValidator
+ 
+  
+ 
 };
