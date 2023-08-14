@@ -20,7 +20,7 @@ mongoose
   })
   .catch((error) => {
     console.log(
-      `Database connection is not successfulOK because of: ${error.message}`
+      `Database connection is not successful because of: ${error.message}`
     );
     process.exit(1);
   });
