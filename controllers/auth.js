@@ -3,10 +3,11 @@ const jwt = require("jsonwebtoken");
 const gravatar = require('gravatar');
 const path = require("path");
 const fs = require("fs").promises;
+const { nanoid } = require("nanoid");
 
 const { User } = require("../models/user");
 
-const { HttpError, ctrlWrapper,resizeFile } = require("../utils");
+const { HttpError, ctrlWrapper,resizeFile,sendEmail } = require("../utils");
 const { SECRET_KEY } = process.env;
 
 
@@ -21,10 +22,17 @@ const register = async (req, res) => {
   const hashPassword = await bcrypt.hash(password, 10);
   const avatarURL = gravatar.url(email);
   
-  const data = { ...req.body, password: hashPassword, avatarURL };
+  const data = {
+    ...req.body,
+    password: hashPassword,
+    avatarURL,
+    verificationToken: nanoid(),
+  };
 
 
   const newUser = await User.create(data);
+
+   await sendEmail({ email, verificationToken: newUser.verificationToken });
 
   const { subscription } = newUser;
 
@@ -32,6 +40,47 @@ const register = async (req, res) => {
     user: { email, subscription },
   });
 };
+
+const verifyToken = async (req, res) => {
+  const { verificationToken } = req.params;
+
+  const user = await User.findOne({ verificationToken });
+
+  // Користувач не знайдений
+  if (!user) {
+    throw HttpError(404, "User not found");
+  }
+
+  await User.findByIdAndUpdate(user._id, {
+    verificationToken: "",
+    verify: true,
+  });
+
+  res.json({ message: "Verification successful" });
+};
+
+
+const resendEmail = async (req, res) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+
+  // Перевірка на існування користувача в базі
+  if (!user) {
+    throw HttpError(404, "User not found");
+  }
+
+  // Якщо користувач вже пройшов верифікацію
+  if (user.verify) {
+    throw HttpError(400, "Verification has already been passed");
+  }
+
+  // Повторна відправка посилання для реєстрації на email користувача
+  await sendEmail({ email, verificationToken: user.verificationToken });
+
+  res.json({ message: "Verification email sent" });
+};
+
 
 
 const logIn = async (req, res) => {
@@ -47,6 +96,11 @@ const logIn = async (req, res) => {
   if (!isCorrectPassword) {
     throw HttpError(401, "Email or password is wrong");
   }
+
+ if (!user.verify) {
+   throw HttpError(401, "Email is not verified");
+ }
+
 
   // Логінізація (видача токена)
   const payload = { id: user._id };
@@ -132,6 +186,8 @@ const updateAvatar =  async (req, res) => {
 
 module.exports = {
   register: ctrlWrapper(register),
+  verifyToken:ctrlWrapper(verifyToken),
+  resendEmail:ctrlWrapper(resendEmail),
   logIn: ctrlWrapper(logIn),
   logOut: ctrlWrapper(logOut),
   currentUser: ctrlWrapper(currentUser),

@@ -2,7 +2,7 @@ const express = require("express");
 
 const{authenticate,validateBody, uploadAvatar} = require("../../middelware");
 
-const {userValidator,userSubscriptionValidator} = require("../../shema")
+const {userValidator,userSubscriptionValidator, emailUserValidator} = require("../../shema")
 
 // const schemas = require('../../models/user');
 
@@ -27,6 +27,8 @@ const router = express.Router();
 
  router.patch("/avatars", authenticate,uploadAvatar.single('avatar'),ctrl.updateAvatar);
 
+ router.get("/verify/:verificationToken", ctrl.verifyToken);
 
+ router.post("/verify", validateBody(emailUserValidator), ctrl.resendEmail);
 
 module.exports = router;

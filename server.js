@@ -14,13 +14,13 @@ mongoose
   .then(() => {
     app.listen(portForConnection, () => {
       console.log(
-        `Database connection successfulOK. Use our API on port in local connection: ${portForConnection}`
+        `Database connection successful. Use our API on port in local connection: ${portForConnection}`
       );
     });
   })
   .catch((error) => {
     console.log(
-      `Database connection is not successfulOK because of: ${error.message}`
+      `Database connection is not successful because of: ${error.message}`
     );
     process.exit(1);
   });
